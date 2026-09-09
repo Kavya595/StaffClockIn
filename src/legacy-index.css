@@ -1,0 +1,240 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  color-scheme: light;
+}
+
+* {
+  -webkit-tap-highlight-color: transparent;
+}
+
+body {
+  @apply bg-paper text-ink font-body antialiased;
+}
+
+::selection {
+  background-color: #120D9E;
+  color: #F6F6FB;
+}
+
+/* Focus visibility, kept everywhere for accessibility */
+a:focus-visible,
+button:focus-visible,
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible,
+[tabindex]:focus-visible {
+  outline: 2px solid #120D9E;
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+  }
+}
+
+@keyframes toast-in {
+  from { opacity: 0; transform: translateY(8px) scale(0.98); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+.animate-toast-in { animation: toast-in 0.25s cubic-bezier(.2,.8,.3,1); }
+
+@keyframes punch {
+  0% { transform: scale(1) rotate(0deg); }
+  35% { transform: scale(0.9) rotate(-6deg); }
+  60% { transform: scale(1.06) rotate(2deg); }
+  100% { transform: scale(1) rotate(0deg); }
+}
+.animate-punch { animation: punch 0.45s cubic-bezier(.36,1.5,.4,1); }
+
+@keyframes fade-up {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.animate-fade-up { animation: fade-up 0.35s cubic-bezier(.2,.8,.3,1) both; }
+
+@keyframes fade-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+.animate-fade-in { animation: fade-in 0.3s ease-out both; }
+
+@keyframes scale-in {
+  from { opacity: 0; transform: scale(0.94); }
+  to { opacity: 1; transform: scale(1); }
+}
+.animate-scale-in { animation: scale-in 0.25s cubic-bezier(.2,.8,.3,1) both; }
+
+/* Staggered entrance helper: apply alongside animate-fade-up, set --d in style */
+.stagger { animation-delay: var(--d, 0ms); }
+
+/* Custom scrollbar, subtle */
+.scroll-thin::-webkit-scrollbar { width: 6px; height: 6px; }
+.scroll-thin::-webkit-scrollbar-thumb { background: #D3D5E5; border-radius: 4px; }
+.scroll-thin::-webkit-scrollbar-track { background: transparent; }
+
+.tabular {
+  font-variant-numeric: tabular-nums;
+}
+
+/* Gradient text used for hero/brand headings */
+.text-gradient {
+  background-image: linear-gradient(135deg, #5451B9 0%, #120D9E 60%, #0F0B74 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+/* Dual-brand gradient text — the Qwik orange spark into royal blue */
+.text-gradient-brand {
+  background-image: linear-gradient(100deg, #FD6C00 0%, #FF8A3D 32%, #6E5CE8 68%, #120D9E 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+/* Frosted glass surface, used on dark hero/login backgrounds */
+.glass {
+  background: rgba(255, 255, 255, 0.06);
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+  border: 1px solid rgba(255, 255, 255, 0.10);
+}
+
+/* Skeleton shimmer sheen */
+.shimmer {
+  position: relative;
+  overflow: hidden;
+  background: #EAEBF3;
+}
+.shimmer::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.7), transparent);
+  animation: shimmer 1.6s linear infinite;
+}
+
+/* Soft card hover lift, opt-in via className */
+.card-hover {
+  transition: transform 0.2s cubic-bezier(.2,.8,.3,1), box-shadow 0.2s cubic-bezier(.2,.8,.3,1), border-color 0.2s;
+}
+.card-hover:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 20px 48px -12px rgba(21,24,39,0.16);
+}
+
+/* Live "recording" pulse dot, e.g. for active clock-in state */
+.pulse-dot {
+  animation: pulse-ring 2s cubic-bezier(0.4,0,0.6,1) infinite;
+}
+
+/* ---------- Punch Clock: luxury clock-in / clock-out experience ---------- */
+
+/* Expanding ripple ring released on tap */
+@keyframes punch-ripple {
+  0% { transform: scale(0.35); opacity: 0.55; }
+  100% { transform: scale(1.9); opacity: 0; }
+}
+.animate-punch-ripple { animation: punch-ripple 0.9s cubic-bezier(.2,.7,.3,1) forwards; }
+
+/* Confetti particle burst */
+@keyframes confetti-burst {
+  0% { transform: translate(0, 0) rotate(0deg) scale(1); opacity: 1; }
+  100% {
+    transform: translate(var(--tx), var(--ty)) rotate(var(--rot)) scale(0.4);
+    opacity: 0;
+  }
+}
+.animate-confetti { animation: confetti-burst var(--dur, 0.9s) cubic-bezier(.16,.85,.4,1) forwards; }
+
+/* Success checkmark stroke draw */
+@keyframes check-draw {
+  from { stroke-dashoffset: 40; }
+  to { stroke-dashoffset: 0; }
+}
+.animate-check-draw {
+  stroke-dasharray: 40;
+  stroke-dashoffset: 40;
+  animation: check-draw 0.45s 0.15s cubic-bezier(.2,.8,.3,1) forwards;
+}
+
+/* Success pop-in for the center glyph */
+@keyframes glyph-pop {
+  0% { transform: scale(0.4) rotate(-15deg); opacity: 0; }
+  60% { transform: scale(1.15) rotate(4deg); opacity: 1; }
+  100% { transform: scale(1) rotate(0deg); opacity: 1; }
+}
+.animate-glyph-pop { animation: glyph-pop 0.4s cubic-bezier(.2,.8,.3,1) both; }
+
+/* Diagonal shine sweep across a "luxury" surface, replays on hover/idle loop */
+@keyframes shine-sweep {
+  0% { transform: translateX(-130%) skewX(-15deg); }
+  100% { transform: translateX(230%) skewX(-15deg); }
+}
+.shine-sweep::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(115deg, transparent 40%, rgba(255,255,255,0.22) 50%, transparent 60%);
+  animation: shine-sweep 3.2s ease-in-out infinite;
+  animation-delay: 1s;
+  pointer-events: none;
+}
+
+/* Moving progress dot along the day timeline */
+@keyframes timeline-pulse {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(253,108,0,0.5); }
+  50% { box-shadow: 0 0 0 6px rgba(253,108,0,0); }
+}
+.timeline-now { animation: timeline-pulse 2s cubic-bezier(0.4,0,0.6,1) infinite; }
+
+/* ---------- Big, colourful animated headline text (Staff Login etc.) ---------- */
+@keyframes gradient-shift {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+.text-gradient-animated {
+  background-image: linear-gradient(90deg, #FD6C00, #FF8A3D, #6E5CE8, #2E90E2, #13A870, #FD6C00);
+  background-size: 300% auto;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  animation: gradient-shift 6s ease-in-out infinite;
+}
+
+@keyframes headline-pop {
+  0% { opacity: 0; transform: translateY(10px) scale(0.92); }
+  60% { opacity: 1; transform: translateY(-2px) scale(1.03); }
+  100% { opacity: 1; transform: translateY(0) scale(1); }
+}
+.animate-headline-pop { animation: headline-pop 0.6s cubic-bezier(.2,.8,.3,1) both; }
+
+/* ---------- Extra "shockwave" burst for a successful clock-in ---------- */
+@keyframes shockwave-ring {
+  0% { transform: scale(0.3); opacity: 0.65; border-width: 4px; }
+  100% { transform: scale(2.4); opacity: 0; border-width: 1px; }
+}
+.animate-shockwave { animation: shockwave-ring 0.9s cubic-bezier(.16,.85,.4,1) forwards; }
+
+@keyframes flash-glow {
+  0% { opacity: 0; }
+  30% { opacity: 1; }
+  100% { opacity: 0; }
+}
+.animate-flash-glow { animation: flash-glow 0.7s ease-out forwards; }
+
+@keyframes success-bounce {
+  0% { transform: scale(0.5) translateY(6px); opacity: 0; }
+  45% { transform: scale(1.18) translateY(-4px); opacity: 1; }
+  70% { transform: scale(0.95) translateY(0); }
+  100% { transform: scale(1) translateY(0); }
+}
+.animate-success-bounce { animation: success-bounce 0.55s cubic-bezier(.34,1.56,.64,1) both; }
